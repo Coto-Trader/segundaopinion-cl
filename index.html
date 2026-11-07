@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SegundaOpinión</title>
+<meta name="description" content="Valoración independiente de derivados bajo NIIF 13: el valor razonable (precio de salida) ajustado por bid-offer y XVA según los mitigantes. Valorización de cartera bajo XVA.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0A0E14;--bg-2:#0E141D;--panel:#121A24;--panel-2:#16202C;
+  --grid:#1E2733;--grid-2:#2A3542;--text:#E7ECF3;--muted:#8A95A4;--faint:#56616F;
+  --signal:#2FD9E8;--signal-hi:#8CEFF6;--signal-dim:#2B6470;--steel:#5A6775;
+  --up:#34D399;--down:#F2574C;
+  --display:"Archivo",system-ui,sans-serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+  --wrap:64rem;--gut:clamp(16px,4vw,40px);color-scheme:dark;
+}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:17px;line-height:1.62;-webkit-font-smoothing:antialiased;background-image:radial-gradient(1000px 520px at 82% -10%, rgba(47,217,232,.10), transparent 62%)}
+h1,h2,h3{font-family:var(--display);font-weight:700;line-height:1.08;margin:0;text-wrap:balance;letter-spacing:-.015em}
+p{margin:0}a{color:inherit}
+.wrap{width:100%;max-width:var(--wrap);margin-inline:auto;padding-inline:var(--gut)}
+.band{border-top:1px solid var(--grid)}
+.eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--signal);margin-bottom:1.25rem}
+.muted{color:var(--muted)}.sig{color:var(--signal)}.mono{font-family:var(--mono)}
+.ticker{border-bottom:1px solid var(--grid);background:var(--bg-2)}
+.ticker .row{display:flex;gap:1.8rem;padding:.5rem 0;font-family:var(--mono);font-size:.7rem;color:var(--muted);flex-wrap:wrap;letter-spacing:.02em}
+.ticker b{color:var(--text);font-weight:500}.ticker .up{color:var(--up)}
+.topbar .wrap{display:flex;align-items:center;justify-content:space-between;padding-block:1.1rem;gap:1rem;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:.6rem}
+.brand svg{width:30px;height:30px;flex:0 0 auto}
+.brand .nm{font-family:var(--display);font-weight:800;font-size:1.3rem;letter-spacing:-.01em}
+.brand .nm .op{color:var(--signal)}
+.topbar .mini{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.apps{display:flex;align-items:center;gap:1.3rem;font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase}
+.apps .here{color:var(--signal);position:relative}
+.apps .here::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:2px;background:var(--signal);opacity:.45}
+.apps a{color:var(--muted);text-decoration:none;transition:color .15s ease;display:inline-flex;align-items:center;gap:.2rem}
+.apps a:hover{color:var(--text)}
+.apps .ext{color:var(--signal);font-size:.78em;transform:translateY(-1px)}
+@media(max-width:520px){.apps{gap:.95rem;font-size:.66rem}}
+.hero .wrap{padding-block:clamp(3rem,8vw,5.5rem) clamp(2.5rem,6vw,4rem)}
+.hero h1{font-size:clamp(2.2rem,6vw,3.7rem);max-width:19ch;letter-spacing:-.02em}
+.hero h1 em{font-style:normal;color:var(--signal)}
+.hero .lede{color:var(--muted);font-size:clamp(1.05rem,2.2vw,1.22rem);max-width:58ch;margin-top:1.5rem}
+.hero .lede b{color:var(--text);font-weight:500}
+.clar{margin-top:1.1rem;font-family:var(--mono);font-size:.78rem;line-height:1.5;color:var(--muted);border-left:2px solid var(--signal-dim);padding-left:.85rem;max-width:58ch}
+.clar b{color:var(--signal-hi)}
+.actions{display:flex;flex-wrap:wrap;gap:1rem 1.2rem;align-items:center;margin-top:2.2rem}
+.btn{display:inline-flex;align-items:center;gap:.55rem;background:var(--signal);color:#06212a;font-family:var(--display);font-weight:700;font-size:1rem;border:0;border-radius:4px;padding:.85rem 1.4rem;cursor:pointer;text-decoration:none;transition:filter .15s ease,transform .15s ease}
+.btn:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.btn.ghost{background:transparent;color:var(--text);border:1px solid var(--grid-2);padding:.85rem 1.2rem}
+.btn.ghost:hover{color:var(--signal);border-color:var(--signal-dim)}
+.arr{transition:transform .15s ease}.btn:hover .arr{transform:translateX(3px)}
+.method .wrap{padding-block:clamp(2.6rem,6vw,4rem)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1.6rem}
+@media(max-width:780px){.grid3{grid-template-columns:1fr}}
+.item{background:var(--panel);border:1px solid var(--grid);border-radius:8px;padding:1.5rem 1.4rem}
+.item .num{font-family:var(--mono);font-size:.74rem;color:var(--signal);letter-spacing:.1em}
+.item h3{font-size:1.18rem;margin-top:.8rem}
+.item p{color:var(--muted);font-size:.95rem;margin-top:.55rem}
+.item .tag{font-family:var(--mono);font-size:.64rem;color:var(--faint);letter-spacing:.06em;text-transform:uppercase;margin-top:.9rem}
+.feat .wrap{padding-block:clamp(2.6rem,6vw,4rem);display:grid;grid-template-columns:.95fr 1.05fr;gap:2.6rem;align-items:center}
+@media(max-width:780px){.feat .wrap{grid-template-columns:1fr;gap:1.4rem}}
+.feat h2{font-size:clamp(1.6rem,3.6vw,2.3rem);max-width:18ch}
+.feat p{color:var(--muted);font-size:1.05rem}
+.feat .panel{background:var(--panel);border:1px solid var(--grid-2);border-radius:10px;padding:1.4rem;box-shadow:0 24px 50px -30px rgba(0,0,0,.8)}
+.feat .panel .lbl{font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+.feat .panel .r{display:flex;justify-content:space-between;align-items:baseline;padding:.5rem 0;border-top:1px solid var(--grid);font-family:var(--mono);font-size:.86rem}
+.feat .panel .r:first-of-type{border-top:0}
+.feat .panel .r .m{color:var(--muted)}.feat .panel .r .v{color:var(--text);font-variant-numeric:tabular-nums}
+.feat .panel .r .v.dn{color:var(--down)}.feat .panel .r .v.up{color:var(--up)}.feat .panel .r .v.sig{color:var(--signal)}
+.strip .wrap{padding-block:clamp(2.2rem,5vw,3.2rem);display:grid;grid-template-columns:.85fr 1.15fr;gap:2.5rem;align-items:start}
+@media(max-width:780px){.strip .wrap{grid-template-columns:1fr;gap:1.2rem}}
+.strip h2{font-size:clamp(1.4rem,3.2vw,1.9rem);max-width:18ch}
+.strip p{color:var(--muted);font-size:1rem}
+.strip .ref{font-family:var(--mono);font-size:.68rem;color:var(--faint);letter-spacing:.04em;margin-top:.9rem}
+.cover .wrap{padding-block:clamp(2.6rem,6vw,4rem);display:grid;grid-template-columns:.9fr 1.1fr;gap:3rem;align-items:start}
+@media(max-width:780px){.cover .wrap{grid-template-columns:1fr;gap:1.6rem}}
+.cover h2{font-size:clamp(1.6rem,3.5vw,2.2rem);max-width:16ch}
+.cover .note{color:var(--muted);margin-top:1.1rem;max-width:42ch}
+.instruments{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid var(--grid)}
+@media(max-width:480px){.instruments{grid-template-columns:1fr}}
+.instruments li{list-style:none;padding:.9rem .25rem;border-bottom:1px solid var(--grid);display:flex;align-items:baseline;gap:.7rem}
+.instruments li .tick{color:var(--signal);font-family:var(--mono);font-size:.82rem}
+.instruments li span{font-size:.98rem}
+.book{background:var(--bg-2);border-top:1px solid var(--grid);border-bottom:1px solid var(--grid)}
+.book .wrap{padding-block:clamp(3rem,7vw,4.5rem);display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
+@media(max-width:780px){.book .wrap{grid-template-columns:1fr;gap:2rem}}
+.book h2{font-size:clamp(1.7rem,4vw,2.4rem);max-width:14ch}
+.book .lede{color:var(--muted);margin-top:1rem;max-width:40ch}
+.meta{margin-top:1.8rem;display:grid;gap:.9rem}
+.meta div{display:flex;gap:.8rem;align-items:baseline}
+.meta .k{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);min-width:5.5rem}
+.meta .v{font-size:.98rem}
+.meta .v.copy{cursor:pointer;border:0;background:none;font:inherit;color:var(--text);padding:0;text-align:left}
+.meta .v.copy:hover{color:var(--signal)}
+form{display:grid;gap:1rem}
+.field{display:grid;gap:.4rem}
+label{font-family:var(--mono);font-size:.7rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+input,textarea,select{font-family:var(--body);font-size:.98rem;color:var(--text);background:var(--panel);border:1px solid var(--grid-2);border-radius:4px;padding:.7rem .8rem;width:100%}
+input:focus,textarea:focus,select:focus{outline:2px solid var(--signal);outline-offset:1px;border-color:transparent}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media(max-width:480px){.row2{grid-template-columns:1fr}}
+textarea{resize:vertical;min-height:4.2rem}
+form .btn{justify-content:center;margin-top:.3rem}
+.done{border:1px solid var(--signal);border-radius:8px;padding:1.5rem;background:rgba(47,217,232,.07)}
+.done h3{font-size:1.3rem}.done p{color:var(--muted);margin-top:.5rem;font-size:.96rem}
+footer .wrap{padding-block:2.2rem;display:flex;flex-wrap:wrap;gap:.6rem 1.5rem;justify-content:space-between;align-items:center;color:var(--muted);font-size:.85rem}
+footer .brand .nm{font-size:1rem}
+footer .mono{font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase}
+@media(prefers-reduced-motion:reduce){*{transition:none !important}}
+</style>
+</head>
+<body>
+
+<div class="ticker"><div class="wrap"><div class="row">
+  <span><b>UF</b> 38.420 <span class="up">▲</span></span>
+  <span><b>USD/CLP</b> 945,3</span>
+  <span><b>Cámara CLP</b> 5,25%</span>
+  <span><b>SOFR</b> 4,58%</span>
+  <span class="sig">●</span>
+  <span>NIIF 13 · Valor razonable · UF/CLP</span>
+</div></div></div>
+
+<header class="topbar"><div class="wrap">
+  <div class="brand">
+    <svg viewBox="0 0 100 100" aria-label="SegundaOpinión"><path d="M14,31 C36,33 54,46 69,50" fill="none" stroke="#5A6775" stroke-width="7" stroke-linecap="round"/><path d="M14,69 C36,67 54,54 69,50" fill="none" stroke="#2FD9E8" stroke-width="7" stroke-linecap="round"/><circle cx="72" cy="50" r="11" fill="#2FD9E8"/></svg>
+    <span class="nm">Segunda<span class="op">Opinión</span></span>
+  </div>
+  <nav class="apps" aria-label="Ecosistema">
+    <span class="here">SegundaOpinión</span>
+    <a href="https://xva.cl" title="XVA — Valoración de cartera (SegundaOpinión)">XVA</a>
+    <a href="https://tradeai.cl" title="Suite Trade AI — Hub de la Suite">Suite Trade AI<span class="ext">↗</span></a>
+  </nav>
+</div></header>
+
+<section class="hero"><div class="wrap">
+  <p class="eyebrow">Derivados · Valor razonable · IFRS 13</p>
+  <h1>El valor razonable de sus derivados, a su <em>precio de salida</em>.</h1>
+  <p class="lede">NIIF 13 lo define como un precio de salida: el que se recibiría por vender —o se pagaría por transferir— en una transacción ordenada entre participantes de mercado, con sus supuestos de riesgo; la intención de mantener o liquidar la posición no es relevante. Lo medimos con ese estándar: ajustado por <b>bid-offer</b> y por <b>XVA</b> según los mitigantes de cada contrato. Defendible ante su auditor, directorio y regulador.</p>
+  <p class="clar"><b>Precio de salida teórico</b> ≠ valor de liquidación a mercado — el precio real de cierre con su contraparte, sujeto a liquidez y a otros factores.</p>
+  <div class="actions">
+    <a class="btn" href="#agendar">Agendar una reunión <span class="arr">→</span></a>
+    <a class="btn ghost" href="#cobertura">Qué valoramos</a>
+  </div>
+</div></section>
+
+<section class="method band"><div class="wrap">
+  <p class="eyebrow">Cómo se arma el valor</p>
+  <div class="grid3">
+    <div class="item">
+      <div class="num">01</div>
+      <h3>Precio de salida, por patas</h3>
+      <p>La base: el precio de salida de cada derivado, abierto en sus patas y flujos, cada una en su curva y mercado.</p>
+      <div class="tag">por patas</div>
+    </div>
+    <div class="item">
+      <div class="num">02</div>
+      <h3>Ajuste por bid-offer</h3>
+      <p>El costo de salida de la posición, dentro del rango que admite IFRS 13.</p>
+      <div class="tag">costo de salida</div>
+    </div>
+    <div class="item">
+      <div class="num">03</div>
+      <h3>Ajuste por XVA</h3>
+      <p>CVA, DVA y FVA según lo que mitiga cada contrato: CSA y colateral, netting y umbral — o sin colateral si no lo hay.</p>
+      <div class="tag">CVA · DVA · FVA</div>
+    </div>
+  </div>
+</div></section>
+
+<section class="feat band"><div class="wrap">
+  <div>
+    <p class="eyebrow">Cartera bajo XVA</p>
+    <h2>Su cartera a su valor razonable de salida.</h2>
+    <p>Las compensaciones, el colateral y el fondeo se ven recién a nivel de portafolio. Le entregamos esa foto completa — y, cuando una institución aún no tiene esa capacidad instalada, el mismo marco sirve de punto de partida para levantarla.</p>
+  </div>
+  <div class="panel">
+    <div class="lbl">Cartera · valor de salida (ejemplo)</div>
+    <div class="r"><span class="m">Valor razonable (precio de salida)</span><span class="v sig">CLP 3.912.640.000</span></div>
+    <div class="r"><span class="m">Ajuste bid-offer</span><span class="v dn">− 128.400</span></div>
+    <div class="r"><span class="m">CVA</span><span class="v dn">− 1.284.500</span></div>
+    <div class="r"><span class="m">DVA</span><span class="v up">+ 312.900</span></div>
+    <div class="r"><span class="m">FVA (con / sin CSA)</span><span class="v dn">− 486.200</span></div>
+  </div>
+</div></section>
+
+<section class="strip band"><div class="wrap">
+  <div>
+    <p class="eyebrow">Para qué</p>
+    <h2>Su cierre contable y tributario.</h2>
+  </div>
+  <div>
+    <p>Alimenta sus estados financieros bajo NIIF 13 y el reconocimiento tributario del periodo, aunque la posición no se liquide. Independientes por diseño: no estructuramos ni comercializamos instrumentos; nuestro único producto es la valoración.</p>
+    <p class="ref">Marco: NIIF 13 · Ley N° 20.544 sobre tratamiento tributario de derivados (Chile)</p>
+  </div>
+</div></section>
+
+<section class="cover band" id="cobertura"><div class="wrap">
+  <div>
+    <p class="eyebrow">Cobertura</p>
+    <h2>Qué valorizamos</h2>
+    <p class="note">Desde una cobertura simple de tasa hasta carteras estructuradas. Si no está en la lista, conversémoslo en la reunión.</p>
+  </div>
+  <ul class="instruments">
+    <li><span class="tick">—</span><span>Swaps de tasa de interés (IRS)</span></li>
+    <li><span class="tick">—</span><span>Cross-currency swaps</span></li>
+    <li><span class="tick">—</span><span>Forwards de moneda (FX)</span></li>
+    <li><span class="tick">—</span><span>Opciones FX y de tasa</span></li>
+    <li><span class="tick">—</span><span>Caps, floors y collars</span></li>
+    <li><span class="tick">—</span><span>Swaps de inflación</span></li>
+    <li><span class="tick">—</span><span>Carteras estructuradas</span></li>
+  </ul>
+</div></section>
+
+<section class="book" id="agendar"><div class="wrap">
+  <div>
+    <p class="eyebrow">Agendemos</p>
+    <h2>Reservemos 30 minutos.</h2>
+    <p class="lede">Cuéntenos qué necesita valorizar. Le respondemos en menos de 24 horas hábiles con una propuesta de alcance.</p>
+    <div class="meta">
+      <div><span class="k">Duración</span><span class="v">30 min · videollamada</span></div>
+      <div><span class="k">Sin costo</span><span class="v">La primera conversación es gratuita</span></div>
+      <div><span class="k">Correo</span><button type="button" class="v copy" id="mailcopy" data-mail="contacto@segundaopinion.cl">contacto@segundaopinion.cl</button></div>
+    </div>
+  </div>
+
+  <div id="formslot">
+    <form id="bookform" novalidate>
+      <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true" style="display:none">
+      <div class="row2">
+        <div class="field"><label for="nombre">Nombre</label><input id="nombre" name="nombre" type="text" autocomplete="name" required></div>
+        <div class="field"><label for="empresa">Empresa</label><input id="empresa" name="empresa" type="text" autocomplete="organization" required></div>
+      </div>
+      <div class="row2">
+        <div class="field"><label for="email">Correo</label><input id="email" name="email" type="email" autocomplete="email" required></div>
+        <div class="field"><label for="horario">Horario preferido</label>
+          <select id="horario" name="horario">
+            <option>Mañana (09–12 h)</option>
+            <option>Mediodía (12–14 h)</option>
+            <option>Tarde (14–18 h)</option>
+          </select>
+        </div>
+      </div>
+      <div class="field"><label for="detalle">¿Qué necesita valorizar?</label><textarea id="detalle" name="detalle" placeholder="Ej.: cartera de 4 IRS y 2 forwards FX, corte al cierre de mes…"></textarea></div>
+      <button class="btn" type="submit">Solicitar reunión <span class="arr">→</span></button>
+    </form>
+  </div>
+</div></section>
+
+<footer class="band"><div class="wrap">
+  <div class="brand">
+    <svg viewBox="0 0 100 100" width="22" height="22" aria-hidden="true"><path d="M14,31 C36,33 54,46 69,50" fill="none" stroke="#5A6775" stroke-width="8" stroke-linecap="round"/><path d="M14,69 C36,67 54,54 69,50" fill="none" stroke="#2FD9E8" stroke-width="8" stroke-linecap="round"/><circle cx="72" cy="50" r="12" fill="#2FD9E8"/></svg>
+    <span class="nm">Segunda<span class="op">Opinión</span></span>
+  </div>
+  <div class="mono">© <span id="year"></span> · Valoración independiente de derivados · NIIF 13</div>
+</div></footer>
+
+<script>
+document.getElementById("year").textContent = new Date().getFullYear();
+var mail = document.getElementById("mailcopy");
+mail.addEventListener("click", function () {
+  var addr = mail.getAttribute("data-mail"), original = mail.textContent;
+  function flash(m){ mail.textContent = m; setTimeout(function(){ mail.textContent = original; }, 1400); }
+  try { navigator.clipboard.writeText(addr).then(function(){ flash("Copiado ✓"); }, function(){}); } catch(e){}
+});
+var form = document.getElementById("bookform");
+var ENDPOINT = "https://api.web3forms.com/submit";
+var ACCESS_KEY = "9b55d380-2d1c-4524-9c96-54c21869ee28";
+form.addEventListener("submit", function (e) {
+  e.preventDefault();
+  var nombre = (document.getElementById("nombre").value || "").trim();
+  var empresa = (document.getElementById("empresa").value || "").trim();
+  var email = (document.getElementById("email").value || "").trim();
+  if (!nombre || !empresa || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+    [["nombre",nombre],["empresa",empresa],["email",email]].forEach(function(f){
+      document.getElementById(f[0]).style.borderColor = f[1] ? "" : "var(--down)";
+    });
+    return;
+  }
+  var btn = form.querySelector('button[type="submit"]'); var html = btn.innerHTML;
+  btn.disabled = true; btn.innerHTML = "Enviando…";
+  var honey = form.querySelector('[name="botcheck"]');
+  var payload = { access_key: ACCESS_KEY, subject: "Nueva solicitud de reunión — " + empresa, from_name: "SegundaOpinión · Formulario web", replyto: email, nombre: nombre, empresa: empresa, email: email, horario: (document.getElementById("horario").value || "").trim(), detalle: (document.getElementById("detalle").value || "").trim(), botcheck: honey ? !!honey.checked : false };
+  fetch(ENDPOINT, { method:"POST", headers:{ "Content-Type":"application/json", "Accept":"application/json" }, body: JSON.stringify(payload) })
+    .then(function(r){ return r.json().catch(function(){ return {}; }); })
+    .then(function(d){ if (d && d.success) { showDone(nombre, email); } else { throw new Error("fail"); } })
+    .catch(function(){ btn.disabled=false; btn.innerHTML=html; showError(); });
+});
+function showDone(nombre, email){
+  var slot = document.getElementById("formslot");
+  slot.innerHTML = '<div class="done"><h3>Gracias, ' + esc(nombre.split(" ")[0]) + '.</h3><p>Recibimos su solicitud. Le escribiremos a <strong>' + esc(email) + '</strong> en menos de 24 horas hábiles para confirmar la reunión.</p></div>';
+  slot.scrollIntoView({ behavior:"smooth", block:"center" });
+}
+function showError(){
+  var n = form.querySelector('[role="alert"]'); if (n) n.remove();
+  var p = document.createElement("p"); p.setAttribute("role","alert");
+  p.style.cssText = "margin-top:1rem;color:var(--down);font-size:.9rem";
+  p.innerHTML = 'No pudimos enviar el formulario. Escríbanos directamente a <strong>contacto@segundaopinion.cl</strong>.';
+  form.appendChild(p);
+}
+function esc(s){ return s.replace(/[&<>"']/g, function(c){ return ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c]; }); }
+</script>
+</body>
+</html>
